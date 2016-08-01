@@ -9,6 +9,7 @@
 var Events = require('blear.classes.events');
 var object = require('blear.utils.object');
 var howdo = require('blear.utils.howdo');
+var fun = require('blear.utils.function');
 
 var defaults = {
     /**
@@ -36,9 +37,9 @@ var Linkage = Events.extend({
 
     /**
      * 获取数据
-     * @param index
-     * @param parent
-     * @param done
+     * @param index {Number} 级联索引值
+     * @param parent {*} 父级值
+     * @param [done] {Function} 回调
      * @returns {Linkage}
      */
     getData: function (index, parent, done) {
@@ -56,10 +57,19 @@ var Linkage = Events.extend({
         return the;
     },
 
+
+    /**
+     * 改变某一级数据
+     * @param index {Number} 级联索引值
+     * @param value {*} 值
+     * @param [done] {Function} 回调
+     * @returns {Linkage}
+     */
     change: function (index, value, done) {
         var the = this;
         var options = the[_options];
 
+        done = fun.noop(done);
         the[_value][index] = value;
 
         if (index === options.length - 1) {
@@ -87,8 +97,8 @@ var Linkage = Events.extend({
 
     /**
      * 设置值
-     * @param value
-     * @param done
+     * @param value {Array} 值数组
+     * @param [done] {Function} 回调
      * @returns {Linkage}
      */
     setValue: function (value, done) {
