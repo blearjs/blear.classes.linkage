@@ -73,6 +73,38 @@ describe('测试文件', function () {
             // #change
             .task(function (next) {
                 console.log('-------------------------------');
+                linkage.change(2, '112', function () {
+                    next();
+                });
+            })
+            // #getValue
+            .task(function (next) {
+                var value = linkage.getValue();
+
+                expect(value[0]).toEqual('1');
+                expect(value[1]).toEqual('11');
+                expect(value[2]).toEqual('112');
+                next();
+            })
+            // #change
+            .task(function (next) {
+                console.log('-------------------------------');
+                linkage.change(1, '12', function () {
+                    next();
+                });
+            })
+            // #getValue
+            .task(function (next) {
+                var value = linkage.getValue();
+
+                expect(value[0]).toEqual('1');
+                expect(value[1]).toEqual('12');
+                expect(value[2]).toEqual(undefined);
+                next();
+            })
+            // #change
+            .task(function (next) {
+                console.log('-------------------------------');
                 linkage.change(0, '2', function () {
                     next();
                 });
