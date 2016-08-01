@@ -13,3 +13,9 @@
 [coveralls-img]: https://img.shields.io/coveralls/blearjs/blear.classes.linkage/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/github/blearjs/blear.classes.linkage?branch=master
 
+
+# Events
+- `ready`：初始化准备
+- `getData`：获取单级数据
+- `changeList`：单级列表发生变化
+- `changeValue`：单级选中值发生变化

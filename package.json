@@ -37,8 +37,11 @@
   "dependencies": {},
   "peerDependencies": {
     "blear.classes.events": "1.x",
+    "blear.utils.array": "1.x",
+    "blear.utils.typeis": "1.x",
     "blear.utils.function": "1.x",
     "blear.utils.howdo": "1.x",
+    "blear.utils.time": "1.x",
     "blear.utils.object": "1.x"
   },
   "devDependencies": {
