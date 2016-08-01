@@ -7,6 +7,8 @@
 'use strict';
 
 var Events = require('blear.classes.events');
+var object = require('blear.utils.object');
+var howdo = require('blear.utils.howdo');
 
 var defaults = {
     /**
@@ -28,6 +30,8 @@ var Linkage = Events.extend({
 
         // 外部可以覆盖
         the.caches = {};
+        the[_value] = [];
+        the[_options] = object.assign({}, defaults, options);
     },
 
     /**
@@ -37,7 +41,7 @@ var Linkage = Events.extend({
      * @param done
      * @returns {Linkage}
      */
-    getList: function (index, parent, done) {
+    getData: function (index, parent, done) {
         var the = this;
 
         if (the.caches[index] && the.caches[index][parent]) {
@@ -53,9 +57,57 @@ var Linkage = Events.extend({
     },
 
     change: function (index, value, done) {
+        var the = this;
+        var options = the[_options];
 
+        the[_value][index] = value;
+
+        if (index === options.length - 1) {
+            return the;
+        }
+
+        var nextIndex = index + 1;
+        the.getData(nextIndex, value, function (list) {
+            the.emit('change', nextIndex, list);
+            done(nextIndex, list);
+        });
+
+        return the;
+    },
+
+
+    /**
+     * 获取当前选中的值
+     * @returns {Array}
+     */
+    getValue: function () {
+        return [].concat(this[_value]);
+    },
+
+
+    /**
+     * 设置值
+     * @param value
+     * @param done
+     * @returns {Linkage}
+     */
+    setValue: function (value, done) {
+        var the = this;
+        var options = the[_options];
+
+        the[_value] = [];
+        howdo.each(new Array(options.length), function (index, _, next) {
+            the.change(index, value[index], next)
+        }).follow(function () {
+            done();
+        });
+
+        return the;
     }
 });
+
+var _options = Linkage.sole();
+var _value = Linkage.sole();
 
 Linkage.defaults = defaults;
 module.exports = Linkage;
