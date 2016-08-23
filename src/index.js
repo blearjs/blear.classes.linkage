@@ -196,10 +196,7 @@ pro[_change] = function (index, value, done) {
     var nextIndex = index + 1;
 
     the[_getData](nextIndex, value, function (list) {
-        if (the[_parent][nextIndex] !== value) {
-            the.emit('changeList', nextIndex, list);
-        }
-
+        the.emit('changeList', nextIndex, list);
         the[_parent][nextIndex] = value;
         done(nextIndex, list);
     });
