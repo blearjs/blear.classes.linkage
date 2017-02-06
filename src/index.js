@@ -78,7 +78,7 @@ var Linkage = Events.extend({
         var the = this;
         var options = the[_options];
 
-        done = fun.noop(done);
+        done = fun.ensure(done);
         the[_change](index, value, function () {
             var changeListIndex = index + 1;
             var changeValueIndex = index;
@@ -120,7 +120,7 @@ var Linkage = Events.extend({
         var the = this;
         var options = the[_options];
 
-        done = fun.noop(done);
+        done = fun.ensure(done);
         the[_value] = [];
         howdo.each(new Array(options.length), function (index, _, next) {
             the[_change](index, value[index], function (list) {
@@ -177,7 +177,7 @@ pro[_change] = function (index, value, done) {
     var the = this;
     var options = the[_options];
 
-    done = fun.noop(done);
+    done = fun.ensure(done);
 
     if (the[_value][index] === value) {
         return done();
