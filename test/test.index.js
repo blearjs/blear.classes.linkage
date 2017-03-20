@@ -33,32 +33,14 @@ console.log(dataMap);
 describe('测试文件', function () {
     it('exports', function (done) {
         var linkage = new Linkage({
-            length: 3
-        });
-
-        linkage.on('getData', function (index, parent, done) {
-            console.log('[getData]', index);
-            parent = parent || 0;
-            done(dataMap[parent]);
-        });
-
-        linkage.on('changeList', function (index, list) {
-            console.log('[changeList]', index, list);
-        });
-
-        linkage.on('changeValue', function (index, value) {
-            console.log('[changeValue]', index, value);
-        });
-
-        linkage.on('ready', function () {
-            console.log('[ready]', 'linkage is ready');
+            length: 3,
+            getData: function (meta, done) {
+                var parent = meta.parent || 0;
+                done(dataMap[parent]);
+            }
         });
 
         howdo
-        // #ready
-            .task(function (next) {
-                linkage.ready(next);
-            })
             // #setValue
             .task(function (next) {
                 console.log('-------------------------------');

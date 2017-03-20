@@ -1,0 +1,122 @@
+[
+  {
+    "text": "浙江省",
+    "value": 1,
+    "children": [
+      {
+        "text": "杭州市",
+        "value": 11,
+        "children": [
+          {
+            "text": "西湖区",
+            "value": 111
+          },
+          {
+            "text": "滨江区",
+            "value": 112
+          },
+          {
+            "text": "江干区",
+            "value": 113
+          }
+        ]
+      },
+      {
+        "text": "金华市",
+        "value": 12,
+        "children": [
+          {
+            "text": "金一区",
+            "value": 121
+          },
+          {
+            "text": "金二区",
+            "value": 122
+          },
+          {
+            "text": "金三区",
+            "value": 123
+          }
+        ]
+      },
+      {
+        "text": "绍兴市",
+        "value": 13,
+        "children": [
+          {
+            "text": "绍北区",
+            "value": 131
+          },
+          {
+            "text": "绍南区",
+            "value": 132
+          },
+          {
+            "text": "绍东区",
+            "value": 133
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "安徽省",
+    "value": 2,
+    "children": [
+      {
+        "text": "合肥市",
+        "value": 21,
+        "children": [
+          {
+            "text": "合外区",
+            "value": 211
+          },
+          {
+            "text": "合内区",
+            "value": 212
+          },
+          {
+            "text": "合理区",
+            "value": 213
+          }
+        ]
+      },
+      {
+        "text": "黄山市",
+        "value": 22,
+        "children": [
+          {
+            "text": "屯溪区",
+            "value": 221
+          },
+          {
+            "text": "新安区",
+            "value": 222
+          },
+          {
+            "text": "徽府区",
+            "value": 223
+          }
+        ]
+      },
+      {
+        "text": "安庆市",
+        "value": 23,
+        "children": [
+          {
+            "text": "安一区",
+            "value": 231
+          },
+          {
+            "text": "庆北区",
+            "value": 232
+          },
+          {
+            "text": "安庆区",
+            "value": 233
+          }
+        ]
+      }
+    ]
+  }
+]
