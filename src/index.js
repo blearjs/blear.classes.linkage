@@ -54,6 +54,13 @@ var Linkage = Events.extend({
         the[_optionsList] = new Array(the[_options].length);
     },
 
+    /**
+     * 改变某一级数据
+     * @param index {Number} 索引值
+     * @param value {String|Number} 值
+     * @param [callback] {Function} 回调
+     * @returns {Linkage}
+     */
     change: function (index, value, callback) {
         var the = this;
         var len = the[_options].length;
@@ -86,6 +93,12 @@ var Linkage = Events.extend({
         return the;
     },
 
+    /**
+     * 全量设值
+     * @param value {Array}
+     * @param [callback] {Function} 回调
+     * @returns {Linkage}
+     */
     setValue: function (value, callback) {
         var the = this;
         var options = the[_options];
@@ -171,7 +184,6 @@ var Linkage = Events.extend({
 
         return the;
     },
-
 
     /**
      * 销毁
