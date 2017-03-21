@@ -15,6 +15,7 @@ var array = require('blear.utils.array');
 var typeis = require('blear.utils.typeis');
 var fun = require('blear.utils.function');
 var time = require('blear.utils.time');
+var access = require('blear.utils.access');
 
 var nextTick = time.nextTick;
 var defaults = {
@@ -84,6 +85,7 @@ var Linkage = Events.extend({
         var complete = function () {
             the[_selectedValue][index] = value;
             the[_displayText][index] = the[_getTextByValue](index, value);
+            the.emit('change', index, value);
             the.emit('afterLink');
         };
         callback = fun.ensure(callback);
@@ -92,6 +94,7 @@ var Linkage = Events.extend({
             the.emit('beforeLink');
             the[_setValue][index] = value;
 
+            // 改变的是最后一个 select
             if (start >= len) {
                 complete();
                 callback();
@@ -207,6 +210,29 @@ var Linkage = Events.extend({
             index++;
         } while (index < len);
 
+        return the;
+    },
+
+    setList: function (index, list, selected) {
+        var the = this;
+        var options = the[_options];
+        var caches = options.caches;
+        var parent = the[_selectedValue][index - 1];
+        var args = access.args(arguments);
+
+        if (caches) {
+            caches[index] = caches[index] || {};
+            caches[index][parent] = list;
+        }
+
+        if (args.length === 3) {
+            the[_setValue][index] = selected;
+            the[_selectedValue][index] = selected;
+            the[_displayText][index] = the[_getTextByValue](index, selected);
+        }
+
+        the[_optionsList][index] = list;
+        the.emit('changeList', index, list, selected);
         return the;
     },
 

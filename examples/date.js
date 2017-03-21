@@ -89,6 +89,26 @@ linkage.on('changeList', function (index, list, selected) {
     );
 });
 
+linkage.on('change', function (index, value) {
+    switch (index) {
+        // 改变的是年
+        case 0:
+        // 改变月
+        case 1:
+            var getValue = linkage.getValue();
+            var selectedDate = getValue[2];
+            var list = buildDateList({
+                value: getValue
+            });
+
+            if (selectedDate > list.length) {
+                selectedDate = list.length;
+            }
+
+            linkage.setList(2, list, selectedDate);
+            break;
+    }
+});
 
 // ===============================
 
@@ -125,7 +145,7 @@ function buildDateList(meta) {
 
     arr = array.map(arr, function (item, index) {
         return {
-            value: index,
+            value: index + 1,
             text: 1 + index + '日'
         };
     });

@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "blear.classes.events": "1.x",
+    "blear.utils.access": "^1.0.5",
     "blear.utils.array": "1.x",
     "blear.utils.function": "1.x",
     "blear.utils.object": "1.x",
