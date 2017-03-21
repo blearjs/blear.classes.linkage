@@ -31,6 +31,21 @@ var defaults = {
     length: 1,
 
     /**
+     * 相互之间是否相对独立，如国省市是相互联系的，
+     * 但年月日是一定程度相互独立的，
+     * 如果是相互联系的，则父级变化会重置子级，
+     * 而如果是相互独立的，则不不会重置子级
+     * @type Boolean
+     */
+    single: false,
+
+    // /**
+    //  * 如果未匹配，是否降级选中第一个
+    //  * @type Boolean
+    //  */
+    // downgradeFirst: false,
+
+    /**
      * 获取数据
      * @param meta
      * @param meta.index
@@ -63,16 +78,17 @@ var Linkage = Events.extend({
      */
     change: function (index, value, callback) {
         var the = this;
-        var len = the[_options].length;
+        var options = the[_options];
+        var len = options.length;
         var start = index + 1;
         var complete = function () {
             the[_selectedValue][index] = value;
             the[_displayText][index] = the[_getTextByValue](index, value);
             the.emit('afterLink');
         };
+        callback = fun.ensure(callback);
 
         nextTick(function () {
-            callback = fun.ensure(callback);
             the.emit('beforeLink');
             the[_setValue][index] = value;
 
@@ -82,10 +98,15 @@ var Linkage = Events.extend({
                 return the;
             }
 
-            the.reset(start);
+            if (!options.single) {
+                the.reset(start);
+            }
+
             the[_getData](start, function (list) {
                 complete();
-                the.emit('changeList', start, list, 0);
+                the.emit('changeList', start, list,
+                    options.single ? the[_setValue][start] : undefined
+                );
                 callback();
             });
         });
@@ -106,7 +127,10 @@ var Linkage = Events.extend({
         var arr = new Array(len);
 
         nextTick(function () {
-            the.reset(0);
+            if (!options.single) {
+                the.reset(0);
+            }
+
             the[_setValue] = value;
             callback = fun.ensure(callback);
             the.emit('beforeLink');
@@ -132,6 +156,7 @@ var Linkage = Events.extend({
                     if (!found) {
                         var err = new Error('');
                         err.index = index;
+                        the.emit('changeList', index, list);
                         return next(err);
                     }
 
@@ -178,7 +203,7 @@ var Linkage = Events.extend({
             the[_selectedValue][index] = undefined;
             the[_setValue][index] = undefined;
             the[_displayText][index] = undefined;
-            the.emit('changeList', index, [], 0);
+            the.emit('changeList', index, []);
             index++;
         } while (index < len);
 
@@ -213,12 +238,13 @@ var pro = Linkage.prototype;
 pro[_getData] = function (index, done) {
     var the = this;
     var options = the[_options];
-    var value = the[_setValue];
-    var parent = value[index - 1] || 0;
+    var setValue = the[_setValue];
+    var parent = setValue[index - 1];
     var meta = {
         index: index,
         parent: parent,
-        value: value
+        value: setValue,
+        text: the[_displayText]
     };
     var caches = options.caches;
     var complete = function (list) {
@@ -236,7 +262,7 @@ pro[_getData] = function (index, done) {
 
     the.emit('beforeData', meta);
 
-    if (index > 0 && equal(parent, 0)) {
+    if (index > 0 && parent === undefined) {
         return complete([]);
     }
 
