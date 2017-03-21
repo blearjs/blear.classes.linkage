@@ -213,6 +213,13 @@ var Linkage = Events.extend({
         return the;
     },
 
+    /**
+     * 主动设置某一个列表，并选值
+     * @param index {Number} 索引值
+     * @param list {Array} 列表
+     * @param [selected] {Number|String} 选中值
+     * @returns {Linkage}
+     */
     setList: function (index, list, selected) {
         var the = this;
         var options = the[_options];
@@ -234,6 +241,15 @@ var Linkage = Events.extend({
         the[_optionsList][index] = list;
         the.emit('changeList', index, list, selected);
         return the;
+    },
+
+    /**
+     * 获取选择器列表
+     * @param index {Number} 索引值
+     * @returns {Array}
+     */
+    getList: function (index) {
+        return this[_optionsList][index];
     },
 
     /**
